@@ -1298,7 +1298,7 @@ function submitForm(){
     return;
   }
 
-  const formattedMessage=`New Person from contact form Your Portfolio
+  const formattedMessage=`New Person from Portofolio Contact you
 
 Name: ${n}
 Email: ${em}
@@ -1310,6 +1310,8 @@ ${msg}`;
   emailjs.send('service_lht8all', 'template_1yee9qn', {
     from_name: n,
     from_email: em,
+    visitor_email: em,
+    reply_to: em,
     subject: `Portfolio Contact: ${sub}`,
     message: formattedMessage,
     original_message: msg,
