@@ -821,20 +821,20 @@ opacity:0.4;
     <div class="projects-grid">
 
       <!-- Card 1 -->
-      <div class="project-card gradient-border reveal reveal-delay-1" data-tilt onclick="window.open('https://play.google.com/store/apps/details?id=com.dlf.mobile&pcampaignid=web_share','_blank')" style="cursor:pointer">
+      <div class="project-card gradient-border reveal reveal-delay-1" data-tilt>
         <div class="project-card-header">
           <div class="project-icon project-icon-bg-blue">🔥</div>
-          <span class="project-badge badge-prod">Production App</span>
+          <span class="project-badge badge-conf">Confidential</span>
         </div>
         <div class="project-title">Fire Safety & Management App</div>
-        <div class="project-desc">Enterprise-level Flutter application for incident reporting, safety tracking, and real-time monitoring deployed on the Google Play Store.</div>
+        <div class="project-desc">Enterprise-level Flutter application for incident reporting, safety tracking, and real-time monitoring built under NDA.</div>
         <div class="project-features">
           <div class="project-feature"><span class="feature-dot"></span>Incident reporting with media upload (image, video, PDF)</div>
           <div class="project-feature"><span class="feature-dot"></span>Map-based severity visualization</div>
           <div class="project-feature"><span class="feature-dot"></span>Email sharing & notification system</div>
         </div>
         <div class="project-links">
-          <a href="https://play.google.com/store/apps/details?id=com.dlf.mobile&pcampaignid=web_share" target="_blank" class="project-link">▶ Play Store</a>
+          <span class="project-link" style="cursor:default;opacity:0.5">🔒 Under NDA</span>
         </div>
       </div>
 
@@ -1309,7 +1309,7 @@ ${msg}`;
   
   emailjs.send('service_lht8all', 'template_1yee9qn', {
     from_name: n,
-    from_email: em,
+    // from_email: em,
     visitor_email: em,
     reply_to: em,
     subject: `Portfolio Contact: ${sub}`,
