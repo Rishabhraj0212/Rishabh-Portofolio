@@ -1,0 +1,24 @@
+import { useEffect } from 'react';
+import Lenis from 'lenis';
+import { setLenisInstance } from '../lib/smoothScroll';
+
+export default function SmoothScroll() {
+  useEffect(() => {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) return;
+
+    const lenis = new Lenis({
+      duration: 1.1,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      autoRaf: true,
+    });
+    setLenisInstance(lenis);
+
+    return () => {
+      lenis.destroy();
+      setLenisInstance(null);
+    };
+  }, []);
+
+  return null;
+}
