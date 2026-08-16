@@ -172,8 +172,8 @@ export const projects = [
       'Background processing service',
     ],
     metric: null,
-    noLinkLabel: 'Android App',
-    link: null,
+    link: 'https://drive.google.com/file/d/1gAs0u3NCUvNcw_edGyA7i3rQ-IKj-HW0/view?usp=sharing',
+    linkLabel: '▶ Watch Demo',
   },
 ];
 
