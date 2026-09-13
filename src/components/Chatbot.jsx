@@ -112,6 +112,18 @@ export default function Chatbot() {
     }
   }, [isOpen]);
 
+  /* lock body scroll when chatbot is open (fixes mobile) */
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   /* ── Send message to Groq ── */
   const sendMessage = useCallback(
     async (text) => {
@@ -226,6 +238,7 @@ export default function Chatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            onTouchMove={(e) => e.stopPropagation()}
           >
             {/* Header */}
             <div className="chatbot-header">
@@ -251,7 +264,7 @@ export default function Chatbot() {
             </div>
 
             {/* Messages */}
-            <div className="chatbot-messages">
+            <div className="chatbot-messages" onWheel={(e) => e.stopPropagation()}>
               {messages.map((msg, i) => (
                 <MessageBubble key={i} role={msg.role} content={msg.content} />
               ))}

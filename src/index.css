@@ -198,13 +198,14 @@ body {
 
 .chatbot-messages {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  min-height: 300px;
-  max-height: 380px;
   scrollbar-width: thin;
   scrollbar-color: rgba(255,255,255,0.08) transparent;
 }
