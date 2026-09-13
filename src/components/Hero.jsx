@@ -41,7 +41,7 @@ export default function Hero() {
 
         <motion.h1
           variants={item}
-          className="font-display text-[clamp(2.8rem,9vw,6.2rem)] font-bold leading-[0.98] tracking-tight text-gradient-white"
+          className="font-display text-[clamp(2.5rem,7vw,5.5rem)] font-bold leading-[0.98] tracking-tight text-gradient-white"
         >
           {personal.name}
         </motion.h1>
