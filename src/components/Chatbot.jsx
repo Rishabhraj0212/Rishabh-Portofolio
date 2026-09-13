@@ -234,6 +234,7 @@ export default function Chatbot() {
         {isOpen && (
           <motion.div
             className="chatbot-window"
+            data-lenis-prevent
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
@@ -256,15 +257,20 @@ export default function Chatbot() {
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="rounded-lg p-1.5 text-muted transition-colors hover:bg-white/10 hover:text-ink"
+                className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/5 text-muted transition-colors hover:bg-white/15 hover:text-ink active:scale-95"
                 aria-label="Close chat"
+                title="Close chat"
               >
                 <CloseIcon />
               </button>
             </div>
 
             {/* Messages */}
-            <div className="chatbot-messages" onWheel={(e) => e.stopPropagation()}>
+            <div
+              className="chatbot-messages"
+              data-lenis-prevent
+              onWheel={(e) => e.stopPropagation()}
+            >
               {messages.map((msg, i) => (
                 <MessageBubble key={i} role={msg.role} content={msg.content} />
               ))}

@@ -33,6 +33,17 @@ export default function Navbar() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [open]);
+
   const handleClick = (href) => (e) => {
     e.preventDefault();
     setOpen(false);
@@ -40,82 +51,107 @@ export default function Navbar() {
   };
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-[1000] transition-all duration-500 ${
-        scrolled ? 'bg-bg/95 backdrop-blur-2xl border-b border-border' : 'border-b border-transparent'
-      }`}
-    >
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 lg:px-10">
-        <a
-          href="#hero"
-          onClick={handleClick('#hero')}
-          className="font-display text-lg font-bold tracking-tight text-gradient"
-          data-cursor-hover
-        >
-          {personal.initials}
-        </a>
+    <>
+      <header
+        className={`fixed inset-x-0 top-0 z-[1000] transition-all duration-500 ${
+          scrolled ? 'bg-bg/95 backdrop-blur-2xl border-b border-border' : 'border-b border-transparent'
+        }`}
+      >
+        <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 lg:px-10">
+          <a
+            href="#hero"
+            onClick={handleClick('#hero')}
+            className="font-display text-lg font-bold tracking-tight text-gradient"
+            data-cursor-hover
+          >
+            {personal.initials}
+          </a>
 
-        <ul className="hidden items-center gap-9 md:flex">
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                onClick={handleClick(link.href)}
-                data-cursor-hover
-                className={`relative text-sm font-medium tracking-wide transition-colors duration-300 ${
-                  active === link.href ? 'text-ink' : 'text-muted hover:text-ink'
-                }`}
-              >
-                {link.label}
-                {active === link.href && (
-                  <motion.span
-                    layoutId="nav-active"
-                    className="absolute -bottom-1.5 left-0 right-0 h-px bg-gradient-to-r from-cyan-400 to-violet-400"
-                    transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                  />
-                )}
-              </a>
-            </li>
-          ))}
-        </ul>
+          <ul className="hidden items-center gap-9 md:flex">
+            {navLinks.map((link) => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  onClick={handleClick(link.href)}
+                  data-cursor-hover
+                  className={`relative text-sm font-medium tracking-wide transition-colors duration-300 ${
+                    active === link.href ? 'text-ink' : 'text-muted hover:text-ink'
+                  }`}
+                >
+                  {link.label}
+                  {active === link.href && (
+                    <motion.span
+                      layoutId="nav-active"
+                      className="absolute -bottom-1.5 left-0 right-0 h-px bg-gradient-to-r from-cyan-400 to-violet-400"
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                </a>
+              </li>
+            ))}
+          </ul>
 
-        <a
-          href="#contact"
-          onClick={handleClick('#contact')}
-          data-cursor-hover
-          className="hidden rounded-full border border-border-hover bg-white/5 px-5 py-2 text-sm font-medium text-ink transition-colors hover:border-cyan-300/40 hover:bg-cyan-300/10 md:inline-block"
-        >
-          Let's talk
-        </a>
+          <a
+            href="#contact"
+            onClick={handleClick('#contact')}
+            data-cursor-hover
+            className="hidden rounded-full border border-border-hover bg-white/5 px-5 py-2 text-sm font-medium text-ink transition-colors hover:border-cyan-300/40 hover:bg-cyan-300/10 md:inline-block"
+          >
+            Let's talk
+          </a>
 
-        <button
-          aria-label="Toggle menu"
-          onClick={() => setOpen((v) => !v)}
-          className="relative z-[1001] flex h-9 w-9 flex-col items-center justify-center gap-1.5 md:hidden"
-        >
-          <motion.span
-            animate={open ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
-            className="h-px w-6 bg-ink"
-          />
-          <motion.span
-            animate={open ? { opacity: 0 } : { opacity: 1 }}
-            className="h-px w-6 bg-ink"
-          />
-          <motion.span
-            animate={open ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
-            className="h-px w-6 bg-ink"
-          />
-        </button>
-      </nav>
+          <button
+            aria-label="Toggle menu"
+            onClick={() => setOpen((v) => !v)}
+            className="relative z-[1001] flex h-9 w-9 flex-col items-center justify-center gap-1.5 md:hidden"
+          >
+            <motion.span
+              animate={open ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
+              className="h-px w-6 bg-ink"
+            />
+            <motion.span
+              animate={open ? { opacity: 0 } : { opacity: 1 }}
+              className="h-px w-6 bg-ink"
+            />
+            <motion.span
+              animate={open ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
+              className="h-px w-6 bg-ink"
+            />
+          </button>
+        </nav>
+      </header>
 
+      {/* Mobile menu overlay — rendered outside <header> to prevent stacking/clipping bugs when scrolled */}
       <AnimatePresence>
         {open && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[1000] flex flex-col items-center justify-center gap-8 bg-bg/98 backdrop-blur-xl md:hidden"
+            data-lenis-prevent
+            className="fixed inset-0 z-[9998] flex flex-col items-center justify-center gap-8 bg-bg md:hidden"
           >
+            {/* Dedicated Close (X) button */}
+            <button
+              aria-label="Close menu"
+              onClick={() => setOpen(false)}
+              className="absolute top-5 right-6 flex h-10 w-10 items-center justify-center rounded-full text-muted transition-colors hover:bg-white/10 hover:text-ink"
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+
             {navLinks.map((link, i) => (
               <motion.a
                 key={link.href}
@@ -132,6 +168,6 @@ export default function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 }
