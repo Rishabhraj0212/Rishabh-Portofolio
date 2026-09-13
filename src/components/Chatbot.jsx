@@ -221,7 +221,7 @@ export default function Chatbot() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="chatbot-window glass"
+            className="chatbot-window"
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
