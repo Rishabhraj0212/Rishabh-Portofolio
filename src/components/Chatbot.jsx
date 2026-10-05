@@ -12,6 +12,8 @@ const SYSTEM_PROMPT = `You are Rishabh Raj Gupta's AI portfolio assistant. You s
 RULES:
 - Answer questions about Rishabh's skills, experience, projects, education, and achievements using the context below.
 - Be friendly, professional, and concise. Keep answers under 3-4 sentences unless asked for detail.
+- Do not use markdown tables. For project questions, use a short intro and clean bullet points with project name, stack, and one useful detail.
+- If a project has a public link, include the full URL so visitors can click it.
 - If someone asks something not covered in the context, politely say you'd be happy to connect them with Rishabh directly via email (rishabhraj021official@gmail.com).
 - Use a warm, confident tone. You can use emojis sparingly.
 - If asked to do anything unrelated to Rishabh's portfolio (coding tasks, general knowledge, etc.), redirect them to the portfolio content.
@@ -75,6 +77,85 @@ function TypingDots() {
 }
 
 /* ─── Single message bubble ─── */
+function cleanMarkdown(text) {
+  return text.replace(/\*\*(.*?)\*\*/g, '$1').replace(/`([^`]+)`/g, '$1');
+}
+
+function renderInlineText(text) {
+  const cleanText = cleanMarkdown(text);
+  const linkPattern = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)|(https?:\/\/[^\s<]+)/g;
+  const parts = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = linkPattern.exec(cleanText)) !== null) {
+    const [fullMatch, label, markdownUrl, plainUrl] = match;
+    const url = markdownUrl || plainUrl;
+    const linkText = label || url;
+
+    if (match.index > lastIndex) {
+      parts.push(cleanText.slice(lastIndex, match.index));
+    }
+
+    parts.push(
+      <a key={`${url}-${match.index}`} href={url} target="_blank" rel="noreferrer" className="chatbot-link">
+        {linkText}
+      </a>,
+    );
+    lastIndex = match.index + fullMatch.length;
+  }
+
+  if (lastIndex < cleanText.length) {
+    parts.push(cleanText.slice(lastIndex));
+  }
+
+  return parts;
+}
+
+function parseTableRows(lines) {
+  const tableLines = lines.filter((line) => line.trim().startsWith('|') && line.trim().endsWith('|'));
+  if (tableLines.length < 3) return null;
+
+  const rows = tableLines
+    .filter((line) => !/^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$/.test(line))
+    .map((line) => line.replace(/^\s*\||\|\s*$/g, '').split('|').map((cell) => cleanMarkdown(cell.trim())));
+
+  if (rows.length < 2) return null;
+  return rows.slice(1);
+}
+
+function MessageContent({ content }) {
+  const lines = content.split('\n').map((line) => line.trim()).filter(Boolean);
+  const tableRows = parseTableRows(lines);
+
+  if (tableRows) {
+    return (
+      <div className="chatbot-project-list">
+        {tableRows.map((row) => (
+          <div key={row.join('-')} className="chatbot-project-item">
+            <strong>{renderInlineText(row[0] || 'Project')}</strong>
+            {row[1] ? <span>{renderInlineText(row[1])}</span> : null}
+            {row[2] ? <p>{renderInlineText(row[2])}</p> : null}
+            {row[3] ? <small>{renderInlineText(row[3])}</small> : null}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  return lines.map((line) => {
+    const bulletText = line.replace(/^[-*]\s+/, '');
+    const isBullet = bulletText !== line;
+
+    return (
+      <p key={line} className={isBullet ? 'chatbot-line chatbot-line-bullet' : 'chatbot-line'}>
+        {isBullet ? <span className="chatbot-line-dot" /> : null}
+        <span>{renderInlineText(bulletText)}</span>
+      </p>
+    );
+  });
+}
+
 function MessageBubble({ role, content }) {
   return (
     <motion.div
@@ -83,7 +164,7 @@ function MessageBubble({ role, content }) {
       transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
       className={`chatbot-message ${role === 'user' ? 'chatbot-message-user' : 'chatbot-message-ai'}`}
     >
-      {content}
+      <MessageContent content={content} />
     </motion.div>
   );
 }

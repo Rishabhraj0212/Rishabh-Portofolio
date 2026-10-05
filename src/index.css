@@ -303,6 +303,66 @@ body {
   white-space: pre-wrap;
 }
 
+.chatbot-line {
+  margin: 0;
+}
+
+.chatbot-line + .chatbot-line {
+  margin-top: 8px;
+}
+
+.chatbot-line-bullet {
+  display: flex;
+  gap: 8px;
+}
+
+.chatbot-line-dot {
+  margin-top: 9px;
+  height: 4px;
+  width: 4px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--color-cyan);
+}
+
+.chatbot-link {
+  color: var(--color-cyan);
+  font-weight: 700;
+  text-decoration: none;
+  word-break: break-word;
+}
+
+.chatbot-link:hover {
+  color: var(--color-ink);
+  text-decoration: underline;
+}
+
+.chatbot-project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.chatbot-project-item {
+  border-left: 2px solid rgba(34, 211, 238, 0.45);
+  padding-left: 10px;
+}
+
+.chatbot-project-item strong,
+.chatbot-project-item span,
+.chatbot-project-item small {
+  display: block;
+}
+
+.chatbot-project-item p {
+  margin: 4px 0;
+}
+
+.chatbot-project-item span,
+.chatbot-project-item small {
+  color: var(--color-muted);
+}
+
 .chatbot-message-user {
   align-self: flex-end;
   background: linear-gradient(135deg, var(--color-cyan), var(--color-violet));
