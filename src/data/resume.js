@@ -13,10 +13,10 @@ export const personal = {
 };
 
 export const summary =
-  "Flutter & Full-Stack Developer with 1.75+ years of experience building secure, scalable mobile and web applications for fintech and enterprise clients. Specializes in Flutter (BLoC, Provider) and Node.js/React full-stack systems, with hands-on expertise in application security (SSL pinning, root/emulator detection, token-based auth), offline-first architecture, and Azure cloud deployment.";
+  "Flutter & Full-Stack Developer with 2+ years of experience building secure, scalable mobile and web applications for fintech and enterprise clients. Specializes in Flutter (BLoC, Provider) and Node.js/React full-stack systems, with hands-on expertise in application security (SSL pinning, root/emulator detection, token-based auth), offline-first architecture, and Azure cloud deployment.";
 
 export const stats = [
-  { value: '1.75+', label: 'Years Experience' },
+  { value: '2+', label: 'Years Experience' },
   { value: '500+', label: 'Users Served' },
   { value: '3', label: 'Production Apps' },
   { value: '0', label: 'Critical Vulnerabilities' },
@@ -123,6 +123,23 @@ export const projects = [
     metric: null,
     noLinkLabel: '🔒 Under NDA',
     link: null,
+  },
+  {
+    icon: '📊',
+    color: 'purple',
+    title: 'Sales Management System',
+    badge: 'Live Project',
+    badgeType: 'demo',
+    stack: ['React', 'Node.js', 'Express', 'MongoDB'],
+    desc: 'Full-stack sales and inventory management platform for tracking products, purchases, invoices, dashboard metrics, and stock status.',
+    features: [
+      'Product and inventory management with stock status',
+      'Invoice and purchase tracking workflow',
+      'Dashboard analytics for sales and inventory insights',
+    ],
+    metric: null,
+    link: 'https://salesmanagementfrontend.vercel.app/',
+    linkLabel: 'View Live',
   },
   {
     icon: '💬',

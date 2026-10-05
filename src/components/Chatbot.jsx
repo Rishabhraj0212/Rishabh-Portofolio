@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { buildPersonalContext } from '../data/personalContext';
+import { personal } from '../data/resume';
 
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const GROQ_KEY = import.meta.env.VITE_GROQ_API_KEY;
@@ -29,6 +30,11 @@ const SUGGESTIONS = [
 ];
 
 /* ─── Chat bubble icon (SVG) ─── */
+const WHATSAPP_NUMBER = personal.phone.replace(/\D/g, '');
+const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+  "Hi Rishabh, I visited your portfolio and would like to chat.",
+)}`;
+
 function ChatIcon() {
   return (
     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -85,6 +91,7 @@ function MessageBubble({ role, content }) {
 /* ─── Main Chatbot Component ─── */
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isChoiceOpen, setIsChoiceOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
@@ -188,15 +195,60 @@ export default function Chatbot() {
     sendMessage(text);
   };
 
+  const handleChatButton = () => {
+    if (isOpen) {
+      setIsOpen(false);
+      return;
+    }
+    setIsChoiceOpen((open) => !open);
+  };
+
+  const openAiChat = () => {
+    setIsChoiceOpen(false);
+    setIsOpen(true);
+  };
+
+  const openWhatsApp = () => {
+    setIsChoiceOpen(false);
+    window.open(WHATSAPP_URL, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <>
       {/* ── Floating Chat Button ── */}
+      <AnimatePresence>
+        {isChoiceOpen && !isOpen && (
+          <motion.div
+            className="chatbot-choice-panel"
+            initial={{ opacity: 0, y: 12, scale: 0.94 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 12, scale: 0.94 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <button type="button" onClick={openWhatsApp} className="chatbot-choice-btn" data-cursor-hover>
+              <span className="chatbot-choice-icon">WA</span>
+              <span>
+                <span className="chatbot-choice-title">Chat on WhatsApp</span>
+                <span className="chatbot-choice-subtitle">{personal.phone}</span>
+              </span>
+            </button>
+            <button type="button" onClick={openAiChat} className="chatbot-choice-btn" data-cursor-hover>
+              <span className="chatbot-choice-icon">AI</span>
+              <span>
+                <span className="chatbot-choice-title">Chat with AI</span>
+                <span className="chatbot-choice-subtitle">Ask about skills, projects, or contact</span>
+              </span>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <motion.button
-        onClick={() => setIsOpen((o) => !o)}
+        onClick={handleChatButton}
         className="chatbot-fab"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        aria-label={isOpen ? 'Close chat' : 'Open chat'}
+        aria-label={isOpen ? 'Close chat' : 'Open chat options'}
         data-cursor-hover
       >
         <AnimatePresence mode="wait">
