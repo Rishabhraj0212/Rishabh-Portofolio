@@ -62,7 +62,8 @@ export const skillGroups = [
 export const skillTags = [
   'Flutter', 'Dart', 'React.js', 'Node.js', 'Express.js', 'PostgreSQL',
   'MongoDB', 'SQLite', 'REST APIs', 'Firebase', 'Azure', 'Application Security',
-  'Android', 'JavaScript', 'Python', 'C++', 'Git / GitHub', 'CI/CD',
+  'Android', 'Kotlin', 'Riverpod', 'Drift', 'Google Sheets API', 'Gemini AI',
+  'JavaScript', 'Python', 'C++', 'Git / GitHub', 'CI/CD',
 ];
 
 export const experience = [
@@ -140,6 +141,23 @@ export const projects = [
     metric: null,
     link: 'https://salesmanagementfrontend.vercel.app/',
     linkLabel: 'View Live',
+  },
+  {
+    icon: '💸',
+    color: 'green',
+    title: 'UPI Expense Tracker',
+    badge: 'Personal Project',
+    badgeType: 'personal',
+    stack: ['Flutter', 'Dart', 'Kotlin', 'Riverpod', 'Drift', 'SQLite', 'Google Sheets', 'Gemini AI'],
+    desc: 'Android-focused Flutter app that automatically captures UPI transactions from SMS and payment notifications, organizes expenses locally, and supports AI-powered spending insights.',
+    features: [
+      'Real-time UPI SMS and notification parsing with duplicate detection',
+      'Offline-first Drift/SQLite storage with category rules and transaction history',
+      'Google Sheets sync plus Gemini AI assistant for expense questions',
+    ],
+    metric: null,
+    noLinkLabel: 'Android App',
+    link: null,
   },
   {
     icon: '💬',
